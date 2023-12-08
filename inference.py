@@ -4,11 +4,11 @@ import torch
 model_path = "vinai/PhoGPT-7B5-Instruct"
 
 config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)
-config.init_device = "cuda"
+config.init_device = "cpu"
 # config.attn_config['attn_impl'] = 'triton' # Enable if "triton" installed!
 
 model = AutoModelForCausalLM.from_pretrained(
-    model_path, config=config, torch_dtype=torch.bfloat16, trust_remote_code=True
+    model_path, config=config, torch_dtype=torch.float16, trust_remote_code=True
 )
 # If your GPU does not support bfloat16:
 # model = AutoModelForCausalLM.from_pretrained(model_path, config=config, torch_dtype=torch.float16, trust_remote_code=True)
@@ -25,8 +25,8 @@ input_prompt = PROMPT.format_map(
 input_ids = tokenizer(input_prompt, return_tensors="pt")
 
 outputs = model.generate(
-    inputs=input_ids["input_ids"].to("cuda"),
-    attention_mask=input_ids["attention_mask"].to("cuda"),
+    inputs=input_ids["input_ids"].to("cpu"),
+    attention_mask=input_ids["attention_mask"].to("cpu"),
     do_sample=True,
     temperature=1.0,
     top_k=50,
