@@ -9,9 +9,7 @@
       "pip install -r requirements.txt"
     ],
     "scripts": {
-      "test": [
-        "echo \"Error: no test specified\" && exit 1"
-      ]
+      "inference": "modal run inference_modal.py --prompt Làm thế nào để cải thiện kỹ năng quản lý thời gian?'"
     }
   }
 }
